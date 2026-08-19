@@ -1,4 +1,4 @@
-# Elysia-Cryene
+# Elysia-Cyrene
 
 DeepSeek Harness Web GUI 的启动画面与界面美化包。
 
