@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>DeepSeek Harness</title>
+    <script type="module" crossorigin src="/assets/index-C-1AiF3k.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor-Cjbwl5VI.js">
+    <link rel="stylesheet" crossorigin href="/assets/vendor-CjyC-hUb.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-CSGf6Qzd.css">
+    <link rel="preload" as="image" href="/assets/boot-bg.png" />
+    <style>
+      /* ===== Elysia & Cryene boot splash (inline, no external deps) ===== */
+      #dsh-splash {
+        --book: url("data:image/jpeg;base64,__BOOK_B64__");
+        position: fixed;
+        inset: 0;
+        z-index: 2147483000;
+        overflow: hidden;
+        background: #0a0f2e;
+        color: #f4ecff;
+        font-family: "Segoe UI", "Microsoft YaHei", system-ui, sans-serif;
+      }
+      #dsh-splash.dsh-splash-done {
+        opacity: 0;
+        transition: opacity 600ms ease;
+      }
+
+      /* ---- background: the book image as a looping animation ---- */
+      .dsh-splash-bg {
+        position: absolute;
+        inset: 0;
+      }
+      .dsh-splash-bg-img {
+        position: absolute;
+        inset: -4%;
+        background-image: var(--book);
+        background-size: cover;
+        background-position: center;
+        animation:
+          dshKenburns 14s ease-in-out infinite alternate,
+          dshGlowPulse 7s ease-in-out infinite alternate;
+        will-change: transform, filter;
+      }
+      @keyframes dshKenburns {
+        from { transform: scale(1.02) translate(0, 0); }
+        to   { transform: scale(1.12) translate(-1.2%, -1%); }
+      }
+      @keyframes dshGlowPulse {
+        from { filter: brightness(0.96) saturate(1.02); }
+        to   { filter: brightness(1.14) saturate(1.12); }
+      }
+      .dsh-splash-vignette {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(120% 90% at 50% 38%, rgba(10, 15, 46, 0) 40%, rgba(6, 9, 34, 0.55) 78%, rgba(4, 7, 26, 0.88) 100%),
+          linear-gradient(180deg, rgba(6, 9, 34, 0.5) 0%, rgba(6, 9, 34, 0) 22%, rgba(6, 9, 34, 0) 72%, rgba(4, 7, 26, 0.6) 100%);
+      }
+      .dsh-splash-stars {
+        position: absolute;
+        inset: 0;
+        opacity: 0.85;
+        background-image:
+          radial-gradient(1.4px 1.4px at 12% 18%, #fff 50%, transparent 51%),
+          radial-gradient(1.2px 1.2px at 78% 12%, #ffd9f4 50%, transparent 51%),
+          radial-gradient(1.6px 1.6px at 34% 8%, #fff 50%, transparent 51%),
+          radial-gradient(1.1px 1.1px at 58% 26%, #d9e4ff 50%, transparent 51%),
+          radial-gradient(1.5px 1.5px at 88% 34%, #fff 50%, transparent 51%),
+          radial-gradient(1.2px 1.2px at 24% 44%, #ffe9fa 50%, transparent 51%),
+          radial-gradient(1.7px 1.7px at 68% 52%, #fff 50%, transparent 51%),
+          radial-gradient(1.2px 1.2px at 44% 64%, #d9e4ff 50%, transparent 51%),
+          radial-gradient(1.4px 1.4px at 82% 70%, #fff 50%, transparent 51%),
+          radial-gradient(1.2px 1.2px at 16% 76%, #ffd9f4 50%, transparent 51%),
+          radial-gradient(1.5px 1.5px at 56% 86%, #fff 50%, transparent 51%),
+          radial-gradient(1.2px 1.2px at 92% 88%, #d9e4ff 50%, transparent 51%);
+        animation: dshStarTwinkle 4.5s ease-in-out infinite alternate;
+      }
+      @keyframes dshStarTwinkle {
+        from { opacity: 0.35; }
+        to   { opacity: 0.95; }
+      }
+
+      /* ---- title, top center ---- */
+      .dsh-splash-title {
+        position: absolute;
+        top: 9vh;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: clamp(34px, 5.6vw, 62px);
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        background: linear-gradient(180deg, #ffffff 8%, #ffd9f0 42%, #b9c8ff 82%, #e6ecff 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: none;
+        filter: drop-shadow(0 4px 18px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 26px rgba(255, 160, 220, 0.35));
+        animation: dshTitleFloat 5s ease-in-out infinite alternate;
+      }
+      .dsh-splash-title .dsh-splash-title-sub {
+        display: block;
+        font-size: 0.42em;
+        font-weight: 500;
+        letter-spacing: 0.24em;
+        margin-top: 10px;
+        color: #dbe4ff;
+        background: none;
+        -webkit-background-clip: initial;
+        background-clip: initial;
+        filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6));
+      }
+      @keyframes dshTitleFloat {
+        from { transform: translateY(-2px); }
+        to   { transform: translateY(4px); }
+      }
+
+      /* ---- loading circle: book + horizontal progress bar ---- */
+      .dsh-splash-loading {
+        position: absolute;
+        left: 50%;
+        top: 64%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 22px;
+      }
+      .dsh-splash-ring {
+        position: relative;
+        width: 128px;
+        height: 128px;
+        border-radius: 50%;
+        background: rgba(14, 20, 58, 0.55);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        box-shadow:
+          0 0 0 6px rgba(255, 255, 255, 0.05),
+          0 12px 40px rgba(0, 0, 0, 0.45),
+          inset 0 0 30px rgba(0, 0, 0, 0.35);
+        overflow: hidden;
+      }
+      .dsh-splash-ring-img {
+        position: absolute;
+        inset: 10px;
+        border-radius: 50%;
+        background-image: var(--book);
+        background-size: cover;
+        background-position: center 30%;
+        animation: dshRingBreathe 3.2s ease-in-out infinite alternate;
+        will-change: transform;
+      }
+      @keyframes dshRingBreathe {
+        from { transform: scale(1); filter: brightness(1); }
+        to   { transform: scale(1.05); filter: brightness(1.12); }
+      }
+      .dsh-splash-ring-spin {
+        position: absolute;
+        inset: -6px;
+        border-radius: 50%;
+        background: conic-gradient(
+          from 0deg,
+          rgba(255, 214, 238, 0) 0%,
+          rgba(255, 214, 238, 0.9) 18%,
+          rgba(185, 200, 255, 0.95) 34%,
+          rgba(185, 200, 255, 0) 52%,
+          rgba(255, 214, 238, 0) 100%
+        );
+        -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px));
+        mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px));
+        animation: dshRingSpin 1.6s linear infinite;
+      }
+      @keyframes dshRingSpin {
+        from { transform: rotate(0deg); }
+        to   { transform: rotate(360deg); }
+      }
+      .dsh-splash-bar {
+        width: 240px;
+        height: 5px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.14);
+        overflow: hidden;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
+      }
+      .dsh-splash-bar-fill {
+        height: 100%;
+        width: 34%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #ffd9f0, #b9c8ff, #e6ecff);
+        box-shadow: 0 0 12px rgba(255, 190, 230, 0.8);
+        animation: dshBarLoad 2.4s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
+      }
+      @keyframes dshBarLoad {
+        from { width: 8%; }
+        to   { width: 96%; }
+      }
+      .dsh-splash-hint {
+        margin-top: 4px;
+        font-size: 12px;
+        letter-spacing: 0.3em;
+        color: rgba(219, 228, 255, 0.75);
+        text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
+        animation: dshHintBlink 2.2s ease-in-out infinite alternate;
+      }
+      @keyframes dshHintBlink {
+        from { opacity: 0.45; }
+        to   { opacity: 1; }
+      }
+
+      /* ===== main-UI background picture =====
+         Layering: pure black (body) → background picture (#dsh-bg) → content
+         (#root raised above). The picture never covers text; the black never
+         hides the picture. App surfaces are made translucent so the picture
+         shows through while text stays readable. */
+      body {
+        background: #000;
+        --dsw-alias-bg-base: rgba(10, 15, 46, 0.3);
+        --dsw-alias-bg-layer-1: rgba(248, 250, 255, 0.52);
+        --dsw-alias-bg-layer-2: rgba(235, 240, 250, 0.62);
+        --dsw-alias-bg-layer-3: rgba(224, 231, 246, 0.68);
+        --dsw-alias-bg-overlay: rgba(248, 250, 255, 0.84);
+      }
+      body[data-ds-dark-theme] {
+        --dsw-alias-bg-base: rgba(6, 10, 30, 0.32);
+        --dsw-alias-bg-layer-1: rgba(18, 31, 67, 0.55);
+        --dsw-alias-bg-layer-2: rgba(24, 40, 80, 0.62);
+        --dsw-alias-bg-layer-3: rgba(32, 49, 91, 0.7);
+        --dsw-alias-bg-overlay: rgba(13, 25, 59, 0.86);
+      }
+      /* only the LEFT sidebar switches to #F5A2C7 (pink); the chat pane,
+         right sidebar and root stay see-through so the background shows */
+      #root,
+      [data-pane='conversation'],
+      [class*='centerCol'],
+      [class*='detailsCol'] {
+        background: transparent !important;
+      }
+      [data-pane='sidebar'],
+      [class*='sidebarCol'] {
+        background: #FBC8DD !important;
+        color: #626EB8 !important;
+      }
+      /* force every sidebar text and icon to #626EB8 (theme elements carry
+         their own white color / svg fill) */
+      [data-pane='sidebar'] *,
+      [class*='sidebarCol'] * {
+        color: #626EB8 !important;
+      }
+      [data-pane='sidebar'] svg,
+      [class*='sidebarCol'] svg {
+        fill: #626EB8 !important;
+        stroke: #626EB8 !important;
+      }
+      /* the inner sidebar panel (width 280px) has its own dark surface;
+         make it transparent so the pink shows, with text/icons on top */
+      [data-slot='sidebar'] > div {
+        background: transparent !important;
+      }
+      /* chat pane fully transparent: the conversation root and the composer
+         seat/stack lose their dark surfaces so the background picture shows */
+      [data-slot='conversation'] > div,
+      [class*='composerSeat'],
+      [class*='composerStack'] {
+        background: transparent !important;
+      }
+      /* my own message bubbles become transparent (assistant bubbles keep
+         their surface); the composer input card turns transparent too */
+      [class*='userStack'] [class*='bubble'] {
+        background: transparent !important;
+      }
+      [class*='composerStack'] [class*='_card'],
+      [class*='composerSeat'] [class*='_card'] {
+        background: transparent !important;
+        border-color: transparent !important;
+      }
+      #root {
+        position: relative;
+        z-index: 1;
+      }
+      #dsh-bg {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0.75;
+        background-image: url("/assets/boot-bg.png");
+        background-size: cover;
+        background-position: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="dsh-splash">
+      <div class="dsh-splash-bg">
+        <div class="dsh-splash-bg-img"></div>
+        <div class="dsh-splash-stars"></div>
+        <div class="dsh-splash-vignette"></div>
+      </div>
+      <div class="dsh-splash-title">
+        DeepSeek harness
+        <span class="dsh-splash-title-sub">Elysia-Cryene</span>
+      </div>
+      <div class="dsh-splash-loading">
+        <div class="dsh-splash-ring">
+          <div class="dsh-splash-ring-img"></div>
+          <div class="dsh-splash-ring-spin"></div>
+        </div>
+        <div class="dsh-splash-bar"><div class="dsh-splash-bar-fill"></div></div>
+        <div class="dsh-splash-hint">正在加载工作空间…</div>
+      </div>
+    </div>
+    <script>
+      (function () {
+        var splash = document.getElementById('dsh-splash');
+        if (!splash) return;
+        var MIN_SHOW_MS = 1800;        /* never close before 1.8s (no flash) */
+        var REQUIRED_FRAMES = 10;      /* ~160ms of continuous readiness */
+        var MAX_WAIT_MS = 30000;       /* hard fallback */
+        var started = Date.now();
+        var readyFrames = 0;
+
+        /* "chat UI fully displayed": the main layout (sidebar column) is
+           rendered AND the primary pane is present — the hero landing
+           ([data-phase='hero']) or an active conversation with its chat flow
+           and composer input. */
+        function mainUiReady() {
+          var root = document.getElementById('root');
+          if (!root || root.childElementCount === 0) return false;
+          var layout = document.querySelector("[data-pane='sidebar'], [class*='sidebarCol']");
+          if (!layout) return false;
+          var pane = document.querySelector(
+            "[data-phase='hero'], [data-phase='active'] [data-chat-flow], " +
+            "textarea, [contenteditable='true'], [class*='composer']"
+          );
+          return pane !== null;
+        }
+
+        function hide() {
+          /* background picture above the pure-black body, below the content */
+          var bg = document.createElement('div');
+          bg.id = 'dsh-bg';
+          bg.setAttribute('aria-hidden', 'true');
+          document.body.appendChild(bg);
+
+          splash.classList.add('dsh-splash-done');
+          setTimeout(function () { splash.remove(); }, 700);
+        }
+
+        function tick() {
+          if (mainUiReady()) readyFrames++;
+          else readyFrames = 0;
+          var elapsed = Date.now() - started;
+          if (elapsed >= MIN_SHOW_MS && readyFrames >= REQUIRED_FRAMES) { hide(); return; }
+          if (elapsed > MAX_WAIT_MS) { hide(); return; }
+          requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      })();
+    </script>
+  </body>
+</html>
