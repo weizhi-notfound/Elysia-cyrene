@@ -9,7 +9,7 @@ DeepSeek Harness Web GUI 的启动画面与界面美化包。
 
 - **开屏**：翻书加载动画 —— Ken Burns 缓推背景、星光闪烁、加载圆圈（翻书 + 旋转光环）、下方横向进度条、上方中央标题
 
-  `DeepSeek harness` / 副标题 `Elysia-Cryene`
+  `DeepSeek harness` / 副标题 `Elysia-Cyrene`
 - **主界面**：
   - 纯黑底 → 背景图（`背景.png`，75% 不透明）→ 内容
   - 左侧侧边栏：浅粉 `#FBC8DD` + 蓝紫文字/图标 `#626EB8`
