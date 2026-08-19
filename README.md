@@ -16,6 +16,12 @@ DeepSeek Harness Web GUI 的启动画面与界面美化包。
   - 对话框/输入框/我的消息气泡：透明（背景透出）
 - 开屏在界面完全就绪（连续 10 帧 + 最短 1.8s）后淡出
 
+## 效果展示
+
+![效果1 - 开屏加载动画](assets/效果1.png)
+
+![效果2 - 主界面（背景 + 粉色侧边栏 + 透明对话框）](assets/效果2.png)
+
 ## 文件结构
 
 ```
@@ -23,7 +29,9 @@ Elysia-cyrene/
 ├── splash-template.html      # 完整前端模板（含 __BOOK_B64__ 占位符）
 ├── assets/
 │   ├── book.jpg              # 开屏素材（翻书）
-│   └── background.png        # 主界面背景图
+│   ├── background.png        # 主界面背景图
+│   ├── 效果1.png             # 效果展示截图（开屏）
+│   └── 效果2.png             # 效果展示截图（主界面）
 └── scripts/
     └── install.ps1           # 一键部署到 DSH dist
 ```
