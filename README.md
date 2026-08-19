@@ -8,6 +8,7 @@ DeepSeek Harness Web GUI 的启动画面与界面美化包。
 ## 效果
 
 - **开屏**：翻书加载动画 —— Ken Burns 缓推背景、星光闪烁、加载圆圈（翻书 + 旋转光环）、下方横向进度条、上方中央标题
+
   `DeepSeek harness` / 副标题 `Elysia-Cryene`
 - **主界面**：
   - 纯黑底 → 背景图（`背景.png`，75% 不透明）→ 内容
@@ -41,6 +42,13 @@ powershell -ExecutionPolicy Bypass -File scripts\install.ps1 -DshDist "你的 di
 3. 重启 DSH web 服务（`dsh web`），刷新页面生效。
 
 > 脚本会：注入模板到 `dist/index.html`（把 `book.jpg` 以 base64 内联替换 `__BOOK_B64__`），并把 `background.png` 复制为 `dist/assets/boot-bg.png`。
+
+
+##简易安装方法
+```text
+请帮我下载这个插件：https://github.com/weizhi-notfound/Elysia-cyrene，并检查兼容性等问题。
+若出现问题自动修复，仅对该文件包含内容进行修正。
+```
 
 ## 自定义
 
