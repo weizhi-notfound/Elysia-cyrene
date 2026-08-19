@@ -63,4 +63,4 @@ powershell -ExecutionPolicy Bypass -File scripts\install.ps1 -DshDist "你的 di
 
 ## License
 
-代码：MIT（见 LICENSE）。素材版权归原作者。
+代码：MIT（见 LICENSE）。素材版权归原作者（mihoyo）。
