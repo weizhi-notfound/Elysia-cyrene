@@ -11,6 +11,7 @@
     <link rel="stylesheet" crossorigin href="/assets/vendor-CjyC-hUb.css">
     <link rel="stylesheet" crossorigin href="/assets/index-CSGf6Qzd.css">
     <link rel="preload" as="image" href="/assets/boot-bg.png" />
+    <link rel="preload" as="image" href="/assets/boot-mark1.png" />
     <style>
       /* ===== Elysia & Cyrene boot splash (inline, no external deps) ===== */
       #dsh-splash {
@@ -241,22 +242,77 @@
       [class*='sidebarCol'] {
         background: #FBC8DD !important;
         color: #626EB8 !important;
+        box-shadow: none !important;
+        border: none !important;
       }
-      /* force every sidebar text and icon to #626EB8 (theme elements carry
-         their own white color / svg fill) */
+      /* remove every black/dark shadow, border and divider from the sidebar */
       [data-pane='sidebar'] *,
       [class*='sidebarCol'] * {
         color: #626EB8 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+        border: none !important;
+        outline: none !important;
+      }
+      /* new-session button (NOT the DeepSeek brand logo): transparent
+         surface, black outline kept */
+      [class*='sidebarCol'] button[class*='newSession'],
+      [class*='sidebarCol'] [aria-label*='新会话']:not([class*='brand']) {
+        background: transparent !important;
+        border: 1px solid #000000 !important;
       }
       [data-pane='sidebar'] svg,
       [class*='sidebarCol'] svg {
         fill: #626EB8 !important;
         stroke: #626EB8 !important;
       }
+      /* remove the dark divider above the 导入会话 footer actions */
+      [class*='sidebarCol'] [class*='footArea'],
+      [class*='sidebarCol'] [class*='footerActions'] {
+        border: none !important;
+        border-top: none !important;
+        box-shadow: none !important;
+        background-image: none !important;
+      }
+      /* strip every remaining gradient/dark background from sidebar elements
+         and pseudo-elements (the 刻印1 mark keeps its image via a higher
+         specificity rule below) */
+      [data-pane='sidebar'] *,
+      [class*='sidebarCol'] *,
+      [data-pane='sidebar'] *::before,
+      [data-pane='sidebar'] *::after,
+      [class*='sidebarCol'] *::before,
+      [class*='sidebarCol'] *::after {
+        background-image: none !important;
+      }
       /* the inner sidebar panel (width 280px) has its own dark surface;
          make it transparent so the pink shows, with text/icons on top */
       [data-slot='sidebar'] > div {
+        position: relative;
         background: transparent !important;
+      }
+      /* 刻印1 mark on the sidebar: above the pink background, below the
+         sidebar text (content z 1, mark z 0); hidden when the sidebar
+         collapses to rail (root gains the _collapsed class) */
+      [data-slot='sidebar'] > div > * {
+        position: relative;
+        z-index: 1;
+      }
+      [data-slot='sidebar'] > div::before {
+        content: '';
+        position: absolute;
+        bottom: 96px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 58%;
+        max-height: 26%;
+        aspect-ratio: 572 / 550;
+        background: url("/assets/boot-mark1.png") center / contain no-repeat !important;
+        pointer-events: none;
+        z-index: 0;
+      }
+      [data-slot='sidebar'] > div[class*='_collapsed']::before {
+        display: none;
       }
       /* chat pane fully transparent: the conversation root and the composer
          seat/stack lose their dark surfaces so the background picture shows */
@@ -266,18 +322,28 @@
         background: transparent !important;
       }
       /* my own message bubbles become transparent (assistant bubbles keep
-         their surface); the composer input card turns transparent too */
+         their surface) — bubbles stay untouched. The composer input card:
+         #FBC8DD opaque background with BLACK text/icons inside the chat box. */
       [class*='userStack'] [class*='bubble'] {
         background: transparent !important;
       }
       [class*='composerStack'] [class*='_card'],
       [class*='composerSeat'] [class*='_card'] {
-        background: transparent !important;
+        background: rgba(251, 200, 221, 1) !important;
         border-color: transparent !important;
+        color: #000000 !important;
+      }
+      [class*='composerStack'] [class*='_card'] *,
+      [class*='composerSeat'] [class*='_card'] * {
+        color: #000000 !important;
       }
       #root {
         position: relative;
         z-index: 1;
+      }
+      /* conversation pane text stays pure white (on the dark background) */
+      [data-slot='conversation'] * {
+        color: #FFFFFF !important;
       }
       #dsh-bg {
         position: fixed;

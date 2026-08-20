@@ -12,9 +12,15 @@ DeepSeek Harness Web GUI 的启动画面与界面美化包。
   `DeepSeek harness` / 副标题 `Elysia-Cyrene`
 - **主界面**：
   - 纯黑底 → 背景图（`背景.png`，75% 不透明）→ 内容
-  - 左侧侧边栏：浅粉 `#FBC8DD` + 蓝紫文字/图标 `#626EB8`
-  - 对话框/输入框/我的消息气泡：透明（背景透出）
+  - 左侧侧边栏：浅粉 `#FBC8DD` + 蓝紫文字/图标 `#626EB8`，底部爱莉希雅刻印
+  - 对话区透明（背景透出）、消息区文字纯白、输入框浅粉不透明 + 纯黑文字
 - 开屏在界面完全就绪（连续 10 帧 + 最短 1.8s）后淡出
+
+## 更新公告
+
+1. **修正了对话框的不透明度和文字颜色** —— 输入框 `#FBC8DD` 完全不透明 + 纯黑文字，消息区纯白文字。
+2. **在侧边栏增添爱莉希雅刻印** —— 侧边栏底部居中刻印1 印记，随侧边栏收起而隐藏。
+3. **修正了侧边栏的颜色显示异常** —— 清除黑色阴影/渐变分割线，统一浅粉背景与蓝紫文字/图标。
 
 ## 效果展示
 
@@ -30,6 +36,7 @@ Elysia-cyrene/
 ├── assets/
 │   ├── book.jpg              # 开屏素材（翻书）
 │   ├── background.png        # 主界面背景图
+│   ├── 刻印1.png             # 侧边栏爱莉希雅刻印
 │   ├── 效果1.png             # 效果展示截图（开屏）
 │   └── 效果2.png             # 效果展示截图（主界面）
 └── scripts/
@@ -49,7 +56,7 @@ powershell -ExecutionPolicy Bypass -File scripts\install.ps1 -DshDist "你的 di
 
 3. 重启 DSH web 服务（`dsh web`），刷新页面生效。
 
-> 脚本会：注入模板到 `dist/index.html`（把 `book.jpg` 以 base64 内联替换 `__BOOK_B64__`），并把 `background.png` 复制为 `dist/assets/boot-bg.png`。
+> 脚本会：注入模板到 `dist/index.html`（把 `book.jpg` 以 base64 内联替换 `__BOOK_B64__`），并把 `background.png` 复制为 `dist/assets/boot-bg.png`、`刻印1.png` 复制为 `dist/assets/boot-mark1.png`。
 
 
 ##简易安装方法

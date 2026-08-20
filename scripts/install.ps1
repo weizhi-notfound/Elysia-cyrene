@@ -11,6 +11,7 @@ $root = Split-Path -Parent $PSScriptRoot
 if (-not (Test-Path "$root\splash-template.html")) { throw "splash-template.html not found next to this script" }
 if (-not (Test-Path "$root\assets\book.jpg"))      { throw "assets\book.jpg missing" }
 if (-not (Test-Path "$root\assets\background.png")){ throw "assets\background.png missing" }
+if (-not (Test-Path "$root\assets\刻印1.png"))     { throw "assets\刻印1.png missing" }
 if (-not (Test-Path $DshDist))                     { throw "DshDist not found: $DshDist" }
 
 # 1. inject the template: replace __BOOK_B64__ with the base64 book image
@@ -21,8 +22,9 @@ if (-not $tpl.Contains('__BOOK_B64__')) { throw "template has no __BOOK_B64__ pl
 $out   = $tpl.Replace('__BOOK_B64__', $b64)
 [System.IO.File]::WriteAllText("$DshDist\index.html", $out, (New-Object System.Text.UTF8Encoding($false)))
 
-# 2. background picture into dist assets
+# 2. background picture + sidebar mark into dist assets
 Copy-Item "$root\assets\background.png" "$DshDist\assets\boot-bg.png" -Force
+Copy-Item "$root\assets\刻印1.png"       "$DshDist\assets\boot-mark1.png" -Force
 
 Write-Host "Deployed to $DshDist"
 Write-Host "Restart the DSH web server, then hard-refresh the page."
